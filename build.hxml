@@ -1,0 +1,16 @@
+-js armcat.js
+-main Main
+-cp %ARMSDK%/iron/Sources
+-cp %ARMSDK%/Kha/Sources
+-cp %ARMSDK%/Kha/Backends/Krom
+-lib hxargs
+-lib hxnodejs
+-dce full
+-D kha
+-D kha_js
+-D kha_krom_js
+-D kha_krom
+-D sys_krom
+-D source-header=
+--macro includeFile('shebang')
+-cmd chmod +x armcat.js
