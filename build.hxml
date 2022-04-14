@@ -3,7 +3,7 @@
 -cp %ARMSDK%/iron/Sources
 -cp %ARMSDK%/Kha/Sources
 -cp %ARMSDK%/Kha/Backends/Krom
--lib hxargs
+#-lib hxargs
 -lib hxnodejs
 -dce full
 -D kha
