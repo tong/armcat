@@ -6,6 +6,8 @@
 #-lib hxargs
 -lib hxnodejs
 -dce full
+-D js-es=6
+-D analyzer-optimize
 -D kha
 -D kha_js
 -D kha_krom_js
