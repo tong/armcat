@@ -23,4 +23,7 @@ armcat <file.arm> | jq .objects
 armcat Scene.arm | jq ".objects[].traits"
 ```
 
-- Live preview integration for the [lf](https://github.com/gokcehan/lf/) file manager: [lf/preview#L27](https://github.com/tong/dotfiles/blob/a9d3ea950464c2273d7262b5c2cf57d68af61402/lf/.config/lf/preview#L27) 
+- Live preview integration for the [lf](https://github.com/gokcehan/lf/) file manager: [lf/preview#L27](https://github.com/tong/dotfiles/blob/a9d3ea950464c2273d7262b5c2cf57d68af61402/lf/.config/lf/preview#L27)  
+
+![](lf-armcat.png)
+
