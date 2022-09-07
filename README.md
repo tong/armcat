@@ -2,6 +2,17 @@
 Print binary [armory3d](https://armory3d.org/) `arm` files as json.
 
 
+## Build + Install
+
+```sh
+haxelib install build.hxml
+ARMSDK=<path-to-armsdk>
+haxe build.hxml
+cp armcat.js /usr/bin/armcat
+chmod +x /usr/bin/armcat
+```
+
+
 ## Usage
 
 ```sh
