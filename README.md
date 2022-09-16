@@ -1,4 +1,4 @@
-[#](#) Armcat
+# Armcat
 Print binary [armory3d](https://armory3d.org/) `arm` files as json.
 
 
