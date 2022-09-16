@@ -1,4 +1,4 @@
-# Armcat
+[#](#) Armcat
 Print binary [armory3d](https://armory3d.org/) `arm` files as json.
 
 
@@ -20,9 +20,9 @@ armcat --help
 Usage: armcat <file.arm> [options]
 
 Options:
-  [--format] <str> : String to use for json formatting
-  [--no-format]    : Do not json format output
-  [--help]         : Print usage
+  [--json-indent] <str> : Indention string
+  [--no-json]           : Skip json formatting
+  [--help]
 ```
 
 

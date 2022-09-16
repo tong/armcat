@@ -1,3 +1,8 @@
+import haxe.Json;
+import haxe.io.Bytes;
+import iron.system.ArmPack;
+import sys.FileSystem;
+import sys.io.File;
 using StringTools;
 using haxe.io.Path;
 
@@ -5,61 +10,75 @@ function main() {
     var space : String = "  ";
     var noFormat = false;
     var file : String = null;
+    var outFile : String = null;
     var argsHandler : { getDoc: Void->String, parse: Array<String>->Void } = null;
     function usage() {
-        Sys.println('Usage: armcat <file.arm> [options]\n\nOptions:');
-        for(l in argsHandler.getDoc().split('\n')) Sys.println('  $l');
+        var str = 'Usage: armcat <file.arm> [options]\n\nOptions:\n';
+        for(l in argsHandler.getDoc().split('\n')) str += '  $l\n';
+        return str;
     }
     argsHandler = hxargs.Args.generate([
-	    @doc("String to use for json formatting")
-	    ["--format"] => (str:String) -> {
-            if(str == null) {
-                Sys.println('Missing argument value');
-                Sys.exit(1);
-            }
-            space = str;
+	    @doc("Indention string")
+	    ["--json-indent"] => (str:String) -> {
+            if((space = str) == null)
+                exit(1, 'Missing argument value');
 	    },
-	    @doc("Do not json format output")
-	    ["--no-format"] => () -> {
+	    @doc("Skip json formatting")
+	    ["--no-json"] => () -> {
             noFormat = true;
 	    },
-	    @doc("Print usage")
+	    @doc("File to write output")
+	    ["--out","-o"] => (path:String) -> {
+            outFile = path;
+	    },
 	    ["--help"] => () -> {
-            usage();
-            Sys.exit(0);
+            exit(0, usage());
 	    },
 	    _ => (arg:String) -> {
-            if(!arg.startsWith('--') && arg.extension() == 'arm') {
-                file = arg;
-                if(!sys.FileSystem.exists(file)) {
-                    Sys.println('File not found: $file');
-                    Sys.exit(1);
-                }
+            if(arg.startsWith('--')) {
+                exit(1, 'Unknown argument: $arg\n');
             } else {
-                Sys.println('Unknown argument: $arg\n');
-                usage();
-                Sys.exit(1);
+                if(!FileSystem.exists(arg))
+                    exit(1, 'File not found: $file');
+                file = arg;
             }
 	    }
     ]);
     var args = Sys.args();
-    if(args.length == 0) {
-        Sys.println("Missing path to arm file\n");
-        usage();
-        Sys.exit(1);
+    if(args.length == 0)
+        exit(1, "Missing arguments\n");
+    try argsHandler.parse(args) catch(e:String)
+        exit(1, e);
+    if(file == null) exit(1);
+    var out : Bytes = null;
+    switch file.extension() {
+    case "arm":
+        var dec = ArmPack.decode(File.getBytes(file));
+        if(noFormat || space == null) {
+            out = Bytes.ofString(dec);
+        } else {
+            out = Bytes.ofString(Json.stringify(dec, space));
+        }
+    case "json":
+        out = ArmPack.encode(Json.parse(File.getContent(file)));
+    default:
+       exit(1, 'Unkown file type'); 
     }
-    try {
-        argsHandler.parse(args);
-    } catch(e) {
-        Sys.println(e);
-        Sys.exit(1);
+    if(out != null) {
+        if(outFile == null) {
+            Sys.stdout().write(out);
+        } else {
+            File.saveBytes(outFile, out);
+        }
     }
-    if(file == null)
-        Sys.exit(1);
-    var dec = iron.system.ArmPack.decode(sys.io.File.getBytes(file));
-    if(noFormat || space == null) {
-        Sys.println(dec);
-    } else {
-        Sys.println(haxe.Json.stringify(dec, space));
+}
+
+function exit(code=0,?info:String) {
+    if(info!=null) {
+        if(code == 0)
+            Sys.stdout().writeString(info);
+        else
+            Sys.stderr().writeString(info);
     }
+    Sys.exit(code);
 }
