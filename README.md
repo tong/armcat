@@ -1,5 +1,6 @@
 # Armcat
-Print binary [armory3d](https://armory3d.org/) `arm` files as json.
+
+Convert binary [armory3d](https://armory3d.org/) `arm` files to json and vice versa.
 
 
 ## Build + Install
@@ -8,8 +9,8 @@ Print binary [armory3d](https://armory3d.org/) `arm` files as json.
 haxelib install build.hxml
 ARMSDK=<path-to-armsdk>
 haxe build.hxml
-cp armcat.js /usr/bin/armcat
-chmod +x /usr/bin/armcat
+cp armcat.js /usr/local/bin/armcat
+chmod +x /usr/local/bin/armcat
 ```
 
 
@@ -17,7 +18,7 @@ chmod +x /usr/bin/armcat
 
 ```sh
 armcat --help
-Usage: armcat <file.arm> [options]
+Usage: armcat <file.arm|file.json> [options]
 
 Options:
   [--json-indent] <str> : Indention string
@@ -26,7 +27,7 @@ Options:
 ```
 
 
-## Example Usage
+## Examples
 
 Pretty print using [jq](https://stedolan.github.io/jq/):
 ```sh
