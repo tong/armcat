@@ -6,6 +6,7 @@
 -lib hxargs
 -lib hxnodejs
 -dce full
+-D armorcore
 -D js-es=6
 -D analyzer-optimize
 -D kha
@@ -15,5 +16,5 @@
 -D sys_krom
 -D source-header=
 --macro includeFile('shebang')
-#-cmd mv armcat.js armcat
-#-cmd chmod +x armcat.js
+#-cmd mv armcat.js armcat && chmod +x armcat.js
+
